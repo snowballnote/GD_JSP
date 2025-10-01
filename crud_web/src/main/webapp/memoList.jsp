@@ -4,6 +4,11 @@
 <%@ page import="java.util.*" %>
 <%@ page import="dto.*" %>
 <%
+	//인가 작업 : 로그인 안되어있다면
+	if(session.getAttribute("sessionMemberId") == null){
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+	}
+
 	int rowPerPage = 10;
 	int currentPage = 1;
 	String paramCurrentPage = request.getParameter("currentPage");

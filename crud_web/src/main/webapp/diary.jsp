@@ -2,8 +2,11 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="dto.*" %>
-
-<%
+<%	
+	// 인가 작업 : 로그인 되어있다면
+	if(session.getAttribute("sessionMemberId") == null){
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+	}
 	// ---------------- Controller Layer
 	// 1) 만약 출력할 달력의 년/월 매개값으로 전달 받는다면
 
@@ -118,7 +121,7 @@
 	<!-- menu.jsp 이 위치에 include -->
 	<jsp:include page="/menu.jsp"></jsp:include>
 	
-	<h1>DIARY</h1>
+	<h1><a href="<%=request.getContextPath()%>/diary.jsp">DIARY</a></h1>
 	
 	<h2>
 		<a href="<%=request.getContextPath()%>/diary.jsp?targetYear=<%=targetDay.get(Calendar.YEAR)%>&targetMonth=<%=targetDay.get(Calendar.MONTH)-1%>">[이전달]</a>

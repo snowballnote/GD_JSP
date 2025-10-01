@@ -3,7 +3,11 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="dto.*" %>
-<%
+<%	
+	// 인가 작업 : 로그인 안되어있다면
+	if(session.getAttribute("sessionMemberId") == null){
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+	}
 	/*
 		//이부분이 개발자가 짜는 거
 		Top Query : mysql : limit 키워드 사용

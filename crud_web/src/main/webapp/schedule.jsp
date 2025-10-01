@@ -5,6 +5,11 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="dto.*"%>
 <%	
+	//인가 작업 : 로그인 안되어있다면
+	if(session.getAttribute("sessionMemberId") == null){
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+	}
+
 	// ---------------------- Controller Layer
 	//1) 출력할 달력의 년/월 값이 외부에서 전달되지 않은 경우, 기본값으로 오늘 날짜를 사용하기 위해 today 객체를 생성
 	Calendar today = Calendar.getInstance(); // 현재 시스템의 날짜와 시간을 가지는 달력 객체
@@ -119,7 +124,7 @@
 <body>
 	<jsp:include page="/menu.jsp"></jsp:include>
 
-	<h1>SCHEDULE</h1>
+	<h1><a href="<%=request.getContextPath()%>/schedule.jsp">SCHEDULE</a></h1>
 	<h2>
 		<a href="<%=request.getContextPath()%>/schedule.jsp?targetYear=<%=targetDay.get(Calendar.YEAR)%>&targetMonth=<%=targetDay.get(Calendar.MONTH)-1%>">[이전달]</a>
 				<%=targetDay.get(Calendar.YEAR)%>년<%=targetDay.get(Calendar.MONTH)+1%>월
