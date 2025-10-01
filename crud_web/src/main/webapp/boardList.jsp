@@ -7,6 +7,7 @@
 	// 인가 작업 : 로그인 안되어있다면
 	if(session.getAttribute("sessionMemberId") == null){
 		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		return;
 	}
 	/*
 		//이부분이 개발자가 짜는 거

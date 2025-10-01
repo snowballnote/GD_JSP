@@ -4,5 +4,12 @@
 	<a href="<%=request.getContextPath() %>/boardList.jsp">[게시판 리스트]</a>
 	<a href="<%=request.getContextPath() %>/memoList.jsp">[메모]</a>
 	<a href="<%=request.getContextPath() %>/diary.jsp">[다이어리]</a>
-	<a href="<%=request.getContextPath() %>/schedule.jsp">[스케줄]</a>
+	<a href="<%=request.getContextPath() %>/schedule.jsp">[스케줄]</a>	
+	<%
+		if(session.getAttribute("sessionMemberId") != null){
+	%>
+			<a href="<%=request.getContextPath() %>/memberInfo.jsp">[내정보]</a>		
+	<%
+		}
+	%>
 </div>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "dto.*" %>
+<%@ page import = "java.util.*" %>
 <%
 	String boardNo = request.getParameter("boardNo");
 	System.out.println("boardNo: " + boardNo);
@@ -72,5 +73,67 @@
 		<a href="<%=request.getContextPath()%>/updateBoardForm.jsp?boardNo=<%=board.getBoardNo()%>">[수정]</a>
 		<a href="<%=request.getContextPath()%>/deleteBoard.jsp?boardNo=<%=board.getBoardNo()%>">[삭제]</a>
 	</div>
+	<!-- 댓글 -->
+	<hr>
+	<!-- 댓글리스트 -->
+	<%
+		String sql2 = "select comment_no, board_no, comment_content, comment_writer, createdate from comment where board_no =? order by comment_no desc";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, board.getBoardNo());
+		ResultSet rs2 = stmt2.executeQuery();
+		ArrayList<CommentDto> commentDtolist = new ArrayList<>();
+		while(rs2.next()){
+			CommentDto commentDto = new CommentDto();
+			commentDto.setCommentNo(rs2.getInt("comment_no"));
+			commentDto.setBoardNo(rs2.getInt("board_no")); 
+			commentDto.setCommentContent(rs2.getString("comment_content"));
+			commentDto.setCommentWriter(rs2.getString("comment_writer"));
+			commentDto.setCreatedate(rs2.getString("createdate"));
+			commentDtolist.add(commentDto);
+		}	
+	%>
+	<table border="1">
+		<%
+			for(CommentDto commentDto : commentDtolist){
+		%>		
+				<tr>	
+					<td><%=commentDto.getCommentContent() %></td>
+					<td><%=commentDto.getCommentWriter() %></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/deleteComment.jsp?commentNo=<%=commentDto.getCommentNo()%>&boardNo=<%=commentDto.getBoardNo()%>">
+						[삭제]
+						</a>
+					</td>
+				</tr>
+		<%		
+			}
+		%>
+		
+	</table>
+	<hr>
+	<!-- 댓글 입력 폼 -->
+	<form method="post" action="<%=request.getContextPath()%>/insertCommentAction.jsp">
+		<table border="1">
+			<tr>
+				<th>board_no</th>
+				<td>
+					<input type="text" name="boardNo" value="<%=board.getBoardNo() %>" readonly="readonly">
+				</td>
+			</tr>
+			<tr>
+				<th>comment_writer</th>
+				<td>
+					<input type="text" name="commentWriter" value="<%=(String)(session.getAttribute("sessionMemberId")) %>" readonly="readonly">
+				</td>
+			</tr>
+			<tr>
+				<th>comment_content</th>
+				<td>
+					<textarea rows="3" cols="50" name="commentContent"></textarea>
+				</td>
+			</tr>
+		</table>
+		<button type="submit">댓글입력</button>
+	</form>
 </body>
 </html>

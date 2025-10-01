@@ -1,9 +1,18 @@
+<!-- insertBoardForm.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%	
+	String sessionMemberId = (String)(session.getAttribute("sessionMemberId"));
+	//로그인 인가
+	if(session.getAttribute("sessionMemberId") == null){
+		response.sendRedirect(request.getContextPath()+"/loginForm.jsp");
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>insertBoardForm.jsp</title>
 </head>
 <body>
 	<!-- menu.jsp 이 위치에 include -->
@@ -38,7 +47,7 @@
 			</tr>
 			<tr>
 				<th>BOARD WRITER</th>
-				<td><input type="text" name="boardWriter"></td>
+				<td><input type="text" name="boardWriter" value="<%=sessionMemberId %>"></td>
 			</tr>
 		</table>
 		<button type="submit">글입력</button>
