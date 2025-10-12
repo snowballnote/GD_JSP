@@ -1,12 +1,11 @@
 package dto;
-
+	
 public class DiaryDto {
 	private int diaryNo;
-	private String diaryDate;
+	private String  diaryDate;
 	private String diaryTitle;
 	private String diaryContent;
 	private String createdate;
-	//setter, getter
 	public int getDiaryNo() {
 		return diaryNo;
 	}
@@ -42,8 +41,4 @@ public class DiaryDto {
 		return "DiaryDto [diaryNo=" + diaryNo + ", diaryDate=" + diaryDate + ", diaryTitle=" + diaryTitle
 				+ ", diaryContent=" + diaryContent + ", createdate=" + createdate + "]";
 	}
-	
-	
-	
-	
 }

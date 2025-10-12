@@ -41,6 +41,4 @@ public class MemoDto {
 		return "MemoDto [memoNo=" + memoNo + ", memoCategory=" + memoCategory + ", memoTitle=" + memoTitle
 				+ ", memoContent=" + memoContent + ", createdate=" + createdate + "]";
 	}
-	
-	
 }

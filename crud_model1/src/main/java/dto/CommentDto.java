@@ -6,7 +6,6 @@ public class CommentDto {
 	private String commentContent;
 	private String commentWriter;
 	private String createdate;
-	
 	public int getCommentNo() {
 		return commentNo;
 	}
