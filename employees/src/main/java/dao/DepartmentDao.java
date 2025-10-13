@@ -95,7 +95,7 @@ public class DepartmentDao {
 		} else { 
 			sql = "SELECT dept_no, dept_name"
 					+ " FROM departments"
-					+ " WHERE dept_name=?"
+					+ " WHERE dept_name LIKE ?"
 					+ " ORDER BY dept_no DESC"
 					+ " LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
@@ -119,7 +119,7 @@ public class DepartmentDao {
 		return list;
 	}
 	
-	/* ======================= [전체 게시글 개수 조회] ======================= */
+	//전체 게시글 개수 조회
 	public int selectDepartmentTotalCount(String deptName) throws Exception {
 		Connection conn = DBConnection.getConnection();
 		PreparedStatement stmt = null;
@@ -132,7 +132,7 @@ public class DepartmentDao {
 			sql = "SELECT count(*) FROM departments";
 			stmt = conn.prepareStatement(sql);
 		} else {
-			sql = "SELECT count(*) FROM departments WHERE dept_name=?";
+			sql = "SELECT count(*) FROM departments WHERE dept_name LIKE ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + deptName + "%");
 		}

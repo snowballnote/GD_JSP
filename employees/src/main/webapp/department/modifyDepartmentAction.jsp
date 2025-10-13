@@ -1,49 +1,63 @@
 <!-- modifyDepartmentAction.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dto.*" %>
 <%@ page import="dao.*" %>
-<%@ page import="java.net.URLEncoder" %>
+<%@ page import="dto.*" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="util.DBConnection" %>
 <%
-	//============ [Controller Layer] ============
-	//인코딩
-	request.setCharacterEncoding("UTF-8");
+    String deptNo = request.getParameter("deptNo");
+    String deptName = request.getParameter("deptName");
 
-	// 전달받은 피라미터(게시들 수정 폼에서 보낸 데이터) 가져오기
-	String deptNo = request.getParameter("deptNo");
-	String deptName = request.getParameter("deptName"); //게시판 구분(카테고리)
-	 if (deptName != null) deptName = deptName.trim();
-	
-	//원래 폼
-	String formUrl = request.getContextPath()
-                   + "/department/modifyDepartmentForm.jsp?deptNo="
-                   + URLEncoder.encode(deptNo == null ? "" : deptNo, "UTF-8");
-	
-	// 기본 검증 (예외처리 없이 단순 분기)
-	if (deptNo == null || deptNo.isBlank()) {
-		response.sendRedirect(request.getContextPath()+"/department/departmentList.jsp?error=deptNo");
-		return;
-	}
-	if (deptName == null || deptName.isEmpty()) {
-		response.sendRedirect(formUrl + "&error=deptNameRequired");
-		return;
-	}
-	    
-	// 모델(값) 생성: DTO에 값 담기
-	DepartmentDto paramDepartmentDto = new DepartmentDto();
-	paramDepartmentDto.setDeptNo(deptNo); //문자열을 int로 변환 후 저장
-	paramDepartmentDto.setDeptName(deptName);
-	
-	// DAO 호출: DB에서 게시글 수정 실행
-	DepartmentDao departmentDao = new DepartmentDao();
-	int row = departmentDao.updateDepartment(paramDepartmentDto); //수정된 행의개수를 반환받음
-	
-	// 수정 결과에 따라 페이지 이동
-	if(row == 1){
-		//수정 성공 -> 게시글 목록 페이지로 이동
-		response.sendRedirect(request.getContextPath() + "/department/departmentList.jsp");
-	}else{
-		//수정 실패 -> 다시 작성 폼 페이지로 이동 + 에러 파라미터 전달
-		response.sendRedirect(request.getContextPath() + "/department/modifyDepartmentForm.jsp?error=fail");
-	}
-	
+    if (deptNo == null || deptNo.trim().isEmpty() || deptName == null || deptName.trim().isEmpty()) {
+        response.sendRedirect(request.getContextPath() + "/department/modifyDepartmentForm.jsp?deptNo=" + (deptNo==null?"":deptNo));
+        return;
+    }
+
+    deptNo = deptNo.trim();
+    deptName = deptName.trim();
+
+    DepartmentDao deptDao = new DepartmentDao();
+    DepartmentDto current = deptDao.selectDepartment(deptNo);
+    if (current == null) {
+        response.sendRedirect(request.getContextPath()+"/department/departmentList.jsp");
+        return;
+    }
+
+    // 현재 값과 동일하면 변경 없이 폼으로 복귀
+    if (deptName.equalsIgnoreCase(current.getDeptName()==null?"":current.getDeptName().trim())) {
+        response.sendRedirect(request.getContextPath() + "/department/modifyDepartmentForm.jsp?deptNo=" + deptNo);
+        return;
+    }
+
+    // 다른 행이 이미 같은 이름을 쓰는지 사전 확인 (UNIQUE 충돌 예방)
+    Connection conn = DBConnection.getConnection();
+    String sql = "SELECT 1 FROM departments WHERE dept_name = ? AND dept_no <> ? LIMIT 1";
+    PreparedStatement chk = conn.prepareStatement(sql);
+    chk.setString(1, deptName);
+    chk.setString(2, deptNo);
+    ResultSet rs = chk.executeQuery();
+
+    if (rs.next()) {
+        // 중복 이름 → 변경하지 않고 폼으로 되돌림
+        rs.close(); chk.close(); conn.close();
+        response.sendRedirect(request.getContextPath() + "/department/modifyDepartmentForm.jsp?deptNo=" + deptNo);
+        return;
+    }
+
+    rs.close();
+    chk.close();
+    conn.close();
+
+    // 실제 업데이트
+    DepartmentDto dept = new DepartmentDto();
+    dept.setDeptNo(deptNo);
+    dept.setDeptName(deptName);
+
+    int row = deptDao.updateDepartment(dept);
+
+    if (row == 1) {
+        response.sendRedirect(request.getContextPath() + "/department/departmentList.jsp");
+    } else {
+        response.sendRedirect(request.getContextPath() + "/department/modifyDepartmentForm.jsp?deptNo=" + deptNo);
+    }
 %>

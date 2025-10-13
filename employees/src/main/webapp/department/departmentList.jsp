@@ -60,10 +60,10 @@
 			}
 		%>
 	</div>
-	
+	<hr>
 	<!-- 글 작성 페이지로 이동하는 링크 -->
 	<div>
-		<a href="<%=request.getContextPath()%>/department/addDepartmentForm.jsp">추가</a>
+		<a href="<%=request.getContextPath()%>/department/addDepartmentForm.jsp">부서추가</a>
 	</div>
 	
 	<!-- 현재 페이지 표시 -->
