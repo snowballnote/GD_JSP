@@ -2,4 +2,5 @@
 <div>
 	<a href="<%=request.getContextPath() %>/department/departmentList.jsp">부서관리</a>
 	<a href="<%=request.getContextPath() %>/employee/employeeList.jsp">직원관리</a>
+	<a href="<%=request.getContextPath() %>/employee/employeeList2.jsp">직원관리2</a>
 </div>

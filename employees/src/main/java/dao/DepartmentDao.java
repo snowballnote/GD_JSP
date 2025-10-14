@@ -149,7 +149,7 @@ public class DepartmentDao {
 		return totalCount;
 	}
 
-	/* ======================= [마지막 페이지 계산 메서드] ======================= */
+	// 마지막 페이지 계산 메서드
 	public int getLastPage(String deptName, int rowPerPage) throws Exception {
 		// 전체글 수 구하기
 		int totalCount = this.selectDepartmentTotalCount(deptName);

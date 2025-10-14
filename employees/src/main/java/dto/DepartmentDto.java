@@ -1,4 +1,3 @@
-
 package dto;
 //department
 //Table : employees.departments

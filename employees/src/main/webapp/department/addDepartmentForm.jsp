@@ -18,18 +18,37 @@
 	<!-- 글 작성 후 addDepartmentAction.jsp로 데이터 전송 -->
 	<form action="<%=request.getContextPath()%>/department/addDepartmentAction.jsp" method="post">
 		<table border="1">
-			<!-- 번호 입력 -->
+			<!-- 번호 선택 -->
 			<tr>
 				<th>deptNo</th>
 				<td>
-					<input type="text" name="deptNo" placeholder="예: d001">
+					<!-- 텍스트 입력으로 변경 -->
+					<input type="text" name="deptNo" maxlength="4">
 				</td>
 			</tr>
-			<!-- 부서명 직접 입력 -->
+			<!-- 부서 선택 -->
 			<tr>
 			<th>deptName</th>
 			<td>
-				<input type="text" name="deptName" value="<%= (department != null ? department : "") %>" placeholder="예: Marketing">
+				<select name="deptName">
+					<%
+						//선택 가능한 지역 목록 배열
+						String[] deptNameList = {"Marketing", "Finance", "Human Resources", "Production", "Development", "Quality Management", "Sales", "Research", "Customer Service"};
+						
+						//현재 게시글의 지역과 동일한 값은 selected로 표시
+						for(String s : deptNameList){
+							if(s.equals(department)){
+					%>
+								<option value="<%=s %>" selected="selected"><%=s%></option>
+					<%			
+							}else{
+					%>
+								<option value="<%=s%>"><%=s %></option>
+					<%			
+							}
+						}
+					%>
+				</select>
 			</td>
 		</tr>
 		</table>
