@@ -26,8 +26,7 @@
 	// 3) DAO를 이용해 데이터 조회
 	DepartmentDao departmentDao = new DepartmentDao();
 
-	List<DepartmentDto> departmentList =
-        departmentDao.selectDepartmentListByPage(deptName, startRow, ROW_PER_PAGE);
+	List<Map<String, Object>> departmentList = departmentDao.selectDepartmentAndManagerList(startRow, ROW_PER_PAGE, deptName);
     System.out.println("departmentList.jsp#departmentList: " + departmentList);
 
 	// 전체 페이지 수 계산 (DAO에서 totalCount 기반으로 계산)
@@ -76,19 +75,24 @@
 		<tr>
 			<th>dept_no</th>
 			<th>dept_name</th>
-			<th>[modify][remove]</th>
+			<th>[modify]</th>
+			<th>[remove]</th>
+			<th>관리자 empNo</th>
+			<th>관리자 name</th>
+			<th>관리자 수정</th> <!-- insert dept_manager -->
 		</tr>
 		<%
 			// boardList에 담긴 게시글을 순서대로 출력
-			for(DepartmentDto d : departmentList) {
+			for(Map m : departmentList) {
 		%>
 				<tr>
-					<td><%=d.getDeptNo()%></td>
-					<td><%=d.getDeptName()%></td>
-					<td>
-						<a href="<%=request.getContextPath()%>/department/modifyDepartmentForm.jsp?deptNo=<%=d.getDeptNo()%>">[수정]</a>
-						<a href="<%=request.getContextPath()%>/department/removeDepartment.jsp?deptNo=<%=d.getDeptNo()%>">[삭제]</a>	
-					</td>
+					<td><%=m.get("deptNo")%></td>
+					<td><%=m.get("deptName")%></td>
+					<td><a href="<%=request.getContextPath()%>/department/modifyDepartmentForm.jsp?deptNo=<%=m.get("deptNo")%>">[수정]</a></td>
+					<td><a href="<%=request.getContextPath()%>/department/removeDepartment.jsp?deptNo=<%=m.get("deptNo")%>">[삭제]</a></td>
+					<td><%=m.get("empNo")%></td>
+					<td><%=m.get("name")%></td>
+					<td><a href="">관리자 수정</a>
 				</tr>
 		<%
 			}

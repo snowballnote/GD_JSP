@@ -1,7 +1,7 @@
 <!-- removeDepartment.jsp -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
-    import="dto.*,dao.*" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import = "dao.*" %>
+<%@ page import = "dto.*" %>
 <%
     // 파라미터 받기
     String deptNo = request.getParameter("deptNo");

@@ -91,7 +91,12 @@
 			<th>hireDate</th>
 			<th>deptNo</th>
 			<th>deptName</th>
-			<th>[수정][삭제]</th>
+			<th>부서이동</th> <!-- insert dept_emp -->
+			<th>title</th>
+			<th>직책변경</th><!-- insert titles -->
+			<th>salary</th>
+			<th>연봉변경</th><!-- insert salary -->
+
 		</tr>
 		<%
 			for(Map e : list){
@@ -105,8 +110,21 @@
 					<td><%=e.get("deptNo") %></td>
 					<td><%=e.get("deptName") %></td>
 					<td>
-						<a href="<%=request.getContextPath()%>/employee/modifyEmployeeForm.jsp?empNo=<%=e.get("empNo")%>">[수정]</a>
-						<a href="<%=request.getContextPath()%>/employee/removeEmployee.jsp?empNo=<%=e.get("empNo")%>">[삭제]</a>	
+						<a href="<%=request.getContextPath()%>/deptEmp/addDeptEmpForm.jsp?empNo=<%=e.get("empNo")%>">
+							부서이동
+						</a>
+					</td>
+					<td><%=e.get("title") %></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/title/addTitleForm.jsp?empNo=<%=e.get("empNo")%>">
+							직책변경
+						</a>
+					</td>
+					<td><%=e.get("salary") %></td>
+					<td>
+						<a href="<%=request.getContextPath()%>/salary/addSalaryForm.jsp?empNo=<%=e.get("empNo")%>">
+							연봉변경
+						</a>
 					</td>
 				</tr>
 		<%

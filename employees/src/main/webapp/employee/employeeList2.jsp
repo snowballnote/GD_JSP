@@ -41,14 +41,20 @@
    %>
    
    	<!-- 결과 목록 구현-->
-   	<form method="get" action="<%=request.getContextPath() %>/employee/employeeUnit.jsp">
+   	<form method="get" action="<%=request.getContextPath() %>/employee/employeeList2.jsp">
    		<%
    			for(DepartmentDto d : dList){
+   				boolean flag = false; //deptNaes 안에 d.getDeptName() 있다 or 없다
+   				if (deptNames != null) {   
+   					for(String s : deptNames){
+   						if (d.getDeptName().equals(s)) { flag = true; break; }
+   					}
+   				}
    		%>
-   				<input type="checkbox" name="deptName" value="<%=d.getDeptName() %>"><%=d.getDeptName() %>
-   		<%		
-   			}
-   		%>
+   			<input type="checkbox" name="deptNames" value="<%=d.getDeptName()%>" <%= flag ? "checked" : "" %>><%=d.getDeptName()%>
+		<%
+    		}
+		%>
    		<button type="submit">조회</button>
    	</form>
    	<table border="1">
@@ -62,7 +68,7 @@
          <th>deptName</th>
       </tr>
       <%
-         for(Map e : list) {
+         for(Map e : eList) {
       %>
             <tr>
                <td><%=e.get("empNo")%></td>
