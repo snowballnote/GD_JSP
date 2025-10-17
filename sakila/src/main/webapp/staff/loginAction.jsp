@@ -3,6 +3,12 @@
 <%@ page import="dao.StaffDao" %>
 <%@ page import="dto.Staff" %> 
 <%
+	// + 인가
+	if(session.getAttribute("loginStaff") != null){ //로그인이 되어있다면
+		response.sendRedirect(request.getContextPath() + "/film/filmList.jsp");
+		return;
+	}
+
 	// 1) 로그인 폼에서 전달받은 데이터 가져오기
 	// form의 input name과 동일해야 함 (username, password)
 	String username = request.getParameter("username"); // 아이디 입력값
@@ -26,6 +32,6 @@
 		session.setAttribute("loginStaff", loginStaff);
 	
 		// 로그인 성공 후 filmList.jsp로 이동
-		response.sendRedirect(request.getContextPath() + "/film/filmList/jsp");
+		response.sendRedirect(request.getContextPath() + "/film/filmList.jsp");
 	}
 %>
