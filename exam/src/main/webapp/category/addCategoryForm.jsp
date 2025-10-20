@@ -27,13 +27,9 @@
 				<th>examDate</th>
 				<td><input type="date" name="examDate" required></td>
 			</tr>
-			<tr>
-				<td>
-				<button type="submit">저장</button>
-				<a href="<%=request.getContextPath() %>/category/categoryList.jsp">취소</a>
-				</td>
-			</tr>
 		</table>
+		<button type="submit">저장</button>
+		<a href="<%=request.getContextPath() %>/category/categoryList.jsp">취소</a>
 	</form>
 </body>
 </html>

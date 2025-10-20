@@ -7,9 +7,37 @@ import util.DBConnection;
 
 public class CategoryDao {
 	// 단건 조회
-	public Category selectCategoryOne (int categorId) {
-		
+	public Category selectCategoryOne(int categoryId) throws Exception {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Category c = null;
+
+		String sql = "SELECT"
+		           + "  category_id AS categoryId"
+		           + ", exam_date AS examDate"
+		           + ", createdate AS createdate"
+		           + " FROM category"
+		           + " WHERE category_id = ?";
+
+		conn = DBConnection.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, categoryId);
+
+		rs = stmt.executeQuery();
+		if (rs.next()) {
+			c = new Category();
+			c.setCategoryId(rs.getInt("categoryId"));
+			c.setExamDate(rs.getString("examDate"));
+			c.setCreatedate(rs.getString("createdate"));
+		}
+
+		rs.close();
+		stmt.close();
+		conn.close();
+		return c;
 	}
+
 	// 카테고리 목록 조회(페이징)
 	public List<Category> selectCategoryList(int startRow, int rowPerPage) throws Exception{
 		Connection conn = null;
@@ -115,9 +143,9 @@ public class CategoryDao {
 		Connection conn = DBConnection.getConnection();
 		
 		String sql = "UPDATE category c"
-				+ " SET c.exam_date=?"
+				+ " SET c.exam_date=? "
 				+ " WHERE c.category_id=?"
-				+ " AND NOT EXISTS (SELECT 1 FROM exam e WHERE e.category_id = c.category_id)";
+				+ " AND NOT EXISTS (SELECT 1 FROM exam_result e WHERE e.category_id = c.category_id)";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, c.getExamDate());
@@ -131,16 +159,10 @@ public class CategoryDao {
 	}
 	
 	// 삭제
-	// 시험 날짜 이전 & 등록된 시험 문제가 없을때 & 응시자가 없을때
 	public int deleteCategory(Category c) throws Exception {
 		Connection conn = DBConnection.getConnection();
 		
-		String sql = "DELETE FROM category c"
-					+ " WHERE c.category_id=?"
-					+ " AND c.exam_date > NOW()"
-					+ " AND NOT EXISTS (SELECT 1 FROM question q WHERE q.category_id = c.category_id)"
-					+ " AND NOT EXISTS (SELECT 1 FROM exam e WHERE e.category_id = c.category_id)";
-		
+		String sql = "DELETE FROM category WHERE category_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, c.getCategoryId());
 		

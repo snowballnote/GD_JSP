@@ -15,11 +15,16 @@
 <%
 	final int rowPerPage = 10;
 	int currentPage = 1;
-
 	String cp = request.getParameter("currentPage");
-	if (cp != null && cp.matches("\\d+")) {
-		currentPage = Integer.parseInt(cp);
-		if (currentPage < 1) currentPage = 1;
+	if (cp != null && !cp.trim().isEmpty()) {
+	    boolean isNumber = true;
+	    for (int i = 0; i < cp.length(); i++) {
+	        if (!Character.isDigit(cp.charAt(i))) { isNumber = false; break; }
+	    }
+	    if (isNumber) {
+	        currentPage = Integer.parseInt(cp);
+	        if (currentPage < 1) currentPage = 1;
+	    }
 	}
 	int startRow = (currentPage - 1) * rowPerPage;
 
@@ -62,8 +67,8 @@
 					<td><%= c.getCategoryId() %></td>
 					<td><%= c.getExamDate() %></td>
 					<td><%= c.getCreatedate() %></td>
-					<td><a href="<%=request.getContextPath()%>/category/modifyCategoryForm.jsp?deptNo=<%=c.getCategoryId()%>">[수정]</a></td>
-					<td><a href="<%=request.getContextPath()%>/category/removeCategory.jsp?deptNo=<%=c.getCategoryId()%>">[삭제]</a></td>
+					<td><a href="<%=request.getContextPath()%>/category/modifyCategoryForm.jsp?categoryId=<%=c.getCategoryId()%>">[수정]</a></td>
+					<td><a href="<%=request.getContextPath()%>/category/removeCategory.jsp?categoryId=<%=c.getCategoryId()%>">[삭제]</a></td>
 				</tr>
 			<%
 					}
