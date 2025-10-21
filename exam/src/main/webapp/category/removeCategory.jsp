@@ -23,4 +23,4 @@
 		System.out.println("removeCategory.jsp ===> 카테고리 삭제 실패 row: " + row);
 		response.sendRedirect(request.getContextPath() + "/category/categoryList.jsp");
 	}
-%>
+%><!-- retrun; 으로빼면 없는 데이터라고 생각해서 오류 발생. -->

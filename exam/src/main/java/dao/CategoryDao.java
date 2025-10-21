@@ -18,7 +18,7 @@ public class CategoryDao {
 		           + ", exam_date AS examDate"
 		           + ", createdate AS createdate"
 		           + " FROM category"
-		           + " WHERE category_id = ?";
+		           + " WHERE category_id=?";
 
 		conn = DBConnection.getConnection();
 		stmt = conn.prepareStatement(sql);
@@ -50,7 +50,7 @@ public class CategoryDao {
 					+ ", 	exam_date examDate"
 					+ ", 	createdate createdate"
 					+ " FROM category"
-					+ " ORDER BY category_id ASC"
+					+ " ORDER BY category_id DESC"
 					+ " LIMIT ?, ?";
 		
 		conn = DBConnection.getConnection();

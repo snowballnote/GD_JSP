@@ -4,6 +4,11 @@
 <%@ page import="dto.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.sql.*"%>
+<%@ page import="java.text.*" %>
+<%	
+	// 테스트할때 계속 로그인해야해서 잠시 주석처리
+	if(session.getAttribute("loginTeacher") == null)
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +16,7 @@
 <title>categoryList.jsp</title>
 </head>
 <body>
+	<jsp:include page="/inc/teacherMenu.jsp"></jsp:include>
 	<h1>categoryList</h1>
 <%
 	final int rowPerPage = 10;
@@ -52,6 +58,8 @@
 			<th>createdate</th>
 			<th>수정</th>
 			<th>삭제</th>
+			<th>문제등록</th>
+			<th>문제목록</th>
 		</tr>
 			<%
 				// 결과가 없을 경우
@@ -69,6 +77,29 @@
 					<td><%= c.getCreatedate() %></td>
 					<td><a href="<%=request.getContextPath()%>/category/modifyCategoryForm.jsp?categoryId=<%=c.getCategoryId()%>">[수정]</a></td>
 					<td><a href="<%=request.getContextPath()%>/category/removeCategory.jsp?categoryId=<%=c.getCategoryId()%>">[삭제]</a></td>
+					<td>
+						<%
+							// 시험일자가 지났는지 분기
+							Calendar today = Calendar.getInstance();
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+							String strToday = sdf.format(today.getTime());
+							System.out.println(strToday);
+							// 문자열 strToday와 c.getExamDate()크기를 비교 compareTo()
+							System.out.println(strToday.compareTo(c.getExamDate())); // 양수이면 시험 완료, 음수이면 시험 전
+							if(strToday.compareTo(c.getExamDate()) > 0){
+						%>
+								시험완료
+						<%		
+							}else{
+						%>
+								<a href="<%=request.getContextPath()%>/question/addQuestionForm.jsp?categoryId=<%=c.getCategoryId()%>">[문제등록]</a>
+						<%
+							}
+						%>
+					</td>
+					<td>
+						<a href="<%=request.getContextPath()%>/category/categoryList.jsp">[문제목록]</a>
+					</td>
 				</tr>
 			<%
 					}
