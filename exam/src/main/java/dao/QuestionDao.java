@@ -12,7 +12,7 @@ import dto.Question;
 import util.DBConnection;
 
 public class QuestionDao {
-	public List<Map<String, Object>> questionListByCategory(int categoryId) throws Exception{
+	public List<Map<String, Object>> questionListByCategory(String categoryId) throws Exception{
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -38,10 +38,10 @@ public class QuestionDao {
 				""";
 		conn = DBConnection.getConnection();
 		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, categoryId);
+		stmt.setString(1, categoryId);
 		
 		rs = stmt.executeQuery();
-		List<Map<String, Object>> list = new ArrayList();
+		List<Map<String, Object>> list = new ArrayList<>();
         while(rs.next()) {
         	Map<String, Object> m = new HashMap<>();
         	m.put("questionId", rs.getInt("questionId"));

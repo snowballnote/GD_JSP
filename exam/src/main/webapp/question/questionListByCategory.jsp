@@ -4,9 +4,13 @@
 <%@ page import ="java.util.*" %>
 <%
 	String categoryId = request.getParameter("categoryId");
+	if (categoryId == null || categoryId.trim().isEmpty()) {
+	    response.sendRedirect(request.getContextPath() + "/category/categoryList.jsp");
+	    return;
+	}
+	
 	QuestionDao questionDao = new QuestionDao();
-	List<Map<String, Object>> list 
-		= questionDao.questionListByCategory(Integer.parseInt(categoryId));
+	List<Map<String, Object>> list = questionDao.questionListByCategory(categoryId);
 	System.out.println(list);
 %>
 <!DOCTYPE html>

@@ -98,7 +98,7 @@
 						%>
 					</td>
 					<td>
-						<a href="<%=request.getContextPath()%>/category/categoryList.jsp">[문제목록]</a>
+						 <a href="<%=request.getContextPath()%>/question/questionListByCategory.jsp?categoryId=<%=c.getCategoryId()%>">[문제목록]</a>
 					</td>
 				</tr>
 			<%
