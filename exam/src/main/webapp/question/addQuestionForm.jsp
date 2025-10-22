@@ -66,10 +66,9 @@
             </tr>
          </table>
       </fieldset>
-      
       <div style="margin-top:12px;">
       	<button type="submit">문제추가</button>
-        <a href="<%=request.getContextPath()%>/category/categoryList.jsp">[문제목록]</a>
+        <a href="<%=request.getContextPath()%>/question/questionListByCategory.jsp?">[문제목록]</a>
       </div>
    </form>
 </body>

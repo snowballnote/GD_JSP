@@ -8,6 +8,7 @@ public class Question {
 	private int questionAnswer;
 	private String createdate;
 	private int teacherId;
+	
 	public int getQuestionId() {
 		return questionId;
 	}

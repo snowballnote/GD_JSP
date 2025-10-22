@@ -1,4 +1,4 @@
-<!-- categoryList.jsp -->
+<!-- /exam/category/categoryList.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dao.*" %>
 <%@ page import="dto.*" %>
@@ -48,7 +48,7 @@
 %>
 	<!-- 글 작성 페이지로 이동하는 링크 -->
 	<div>
-		<a href="<%=request.getContextPath()%>/category/addCategoryForm.jsp">카테고리추가</a>
+		<a href="<%=request.getContextPath()%>/category/addCategoryForm.jsp">[카테고리추가]</a>
 	</div>
 	
 	<table border="1">

@@ -1,3 +1,4 @@
+<!-- /exam/student/studentCategoryList.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dto.*" %>
 <%@ page import="dao.*" %>
@@ -12,17 +13,8 @@
 	    return;
 	}
 	
-	int currentPage = 1;
-	int rowPerPage = 10;
-	int startRow = (1-currentPage) * rowPerPage;
-	
 	CategoryDao categoryDao = new CategoryDao();
-	List<Category> list = categoryDao.selectCategoryList(startRow, rowPerPage);
-	
-	// 날짜 준비 (반복문 밖)
-    Calendar today = Calendar.getInstance();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    String strToday = sdf.format(today.getTime());
+	List<Map<String, Object>> list = categoryDao.selectStudentCategoryList(loginStudent.getStudentId());
 %>
 <!DOCTYPE html>
 <html>
@@ -32,35 +24,38 @@
 </head>
 <body>
 	<jsp:include page="/inc/studentMenu.jsp"></jsp:include>
-	<h1>studentList</h1>
+	<h1>studentCategoryList</h1>
 	<table border="1">
 		<tr>
 			<th>회차(category_id)</th>
 			<th>날짜</th>
-			<th>완료 / 참여</th>
+			<th>시험</th>
 		</tr>
 		<%
-			for(Category c : list){
-				String examDate = c.getExamDate(); // "yyyy-MM-dd"
-                int cmp = strToday.compareTo(examDate);
+			for(Map m : list){
 		%>
 				<tr>
-					<td><%= c.getCategoryId() %></td>
-                	<td><%= examDate %></td>
+					<td><%= m.get("categoryId") %></td>
+                	<td><%= m.get("examDate") %></td>
 					<td>
 						<%
-                        	if (cmp > 0) { // 오늘보다 과거 → 완료(결과 보기)
-                   		%>
-							<a href="">[결과보기]</a>
+                        	String exam = (String)m.get("exam");
+							if(exam.equals("응시불가")){
+						%>
+								시험당일 응시가능
 						<%		
-							}else if (cmp == 0) { // 오늘 → 응시 허용(예시)
+							}else if(exam.equals("응시완료")){
 						%>
-								<a href="">[시험응시]</a>
-						<%
-							} else { // cmp < 0 : 시험 전 → 안내
+								익일부터 확인가능
+						<%		
+							}else if(exam.equals("결과보기")){
 						%>
-							시험 예정
-						<%
+								<a href="<%=request.getContextPath()%>/examResult/examResult.jsp?categoryId=<%=m.get("categoryId") %>">결과보기</a>
+						<%		
+							}else{
+						%>		
+								<a href="<%=request.getContextPath()%>/paper/addPaperForm.jsp?categoryId=<%=m.get("categoryId") %>">시험응시하기</a>
+						<%		
 							}
 						%>
 					</td>

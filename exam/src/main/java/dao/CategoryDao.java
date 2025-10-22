@@ -6,6 +6,41 @@ import dto.*;
 import util.DBConnection;
 
 public class CategoryDao {
+	public List<Map<String, Object>> selectStudentCategoryList(int studentId) throws Exception{
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		String sql = """
+					SELECT c.category_id categoryId, c.exam_date examDate, er.student_id studentId
+						, 	CASE WHEN c.exam_date < CURDATE() THEN '결과보기'
+							WHEN c.exam_date > CURDATE() THEN '응시불가'
+							WHEN c.exam_date = CURDATE() AND er.student_id IS NULL THEN '응시가능'
+							ELSE '응시완료' END exam
+					FROM category c LEFT OUTER JOIN(SELECT category_id, student_id FROM exam_result WHERE student_id=?) er
+					ON c.category_id = er.category_id;
+				""";
+		
+		conn = DBConnection.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, studentId);
+
+        
+        rs = stmt.executeQuery();
+        while(rs.next()) {
+        	Map<String, Object> m = new HashMap<>();
+        	m.put("categoryId", rs.getInt("categoryId"));
+        	m.put("examDate", rs.getString("examDate"));
+        	m.put("exam", rs.getString("exam"));
+        	list.add(m);
+        }
+        
+        rs.close();
+		stmt.close();
+		conn.close();
+		return list;	
+	}
 	// 단건 조회
 	public Category selectCategoryOne(int categoryId) throws Exception {
 		Connection conn = null;

@@ -12,7 +12,30 @@ import dto.Question;
 import util.DBConnection;
 
 public class QuestionDao {
-	public List<Map<String, Object>> questionListByCategory(String categoryId) throws Exception{
+	// 정답 반환
+	public int selectQuestionAnswer(int questionId) throws Exception{
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT question_answer questionAnswer FROM question WHERE question_id=?";
+		
+		conn = DBConnection.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, questionId);
+		
+		rs = stmt.executeQuery();
+		int questionAnswer = 0;
+		if(rs.next()) {
+			questionAnswer = rs.getInt("questionAnswer");
+		}
+		
+		rs.close();
+	    stmt.close();
+		conn.close();
+		return questionAnswer;
+	}
+	public List<Map<String, Object>> questionListByCategory(int categoryId) throws Exception{
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -38,7 +61,7 @@ public class QuestionDao {
 				""";
 		conn = DBConnection.getConnection();
 		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, categoryId);
+		stmt.setInt(1, categoryId);
 		
 		rs = stmt.executeQuery();
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -51,10 +74,13 @@ public class QuestionDao {
         	m.put("questionAnswer", rs.getInt("questionAnswer"));
         	m.put("createdate", rs.getString("createdate"));
         	m.put("tacherId", rs.getInt("teacherId"));
-        	m.put("items", rs.getInt("items"));
+        	m.put("items", rs.getString("items"));
         	list.add(m);
         }
         
+        rs.close();
+        stmt.close();
+		conn.close();
 		return list;
 	}
 	
