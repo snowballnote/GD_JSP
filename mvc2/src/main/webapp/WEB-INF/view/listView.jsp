@@ -12,13 +12,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>listView.jsp</title>
 </head>
 <body>
 	<a href="<%=request.getContextPath() %>/addController">글입력</a>
 	<table border="1">
 		<tr>
-			<th>no</th><th>title</th><th>ID</th><th>CREATEDATE</th>
+			<th>no</th><th>title</th><th>WRITER</th><th>CREATEDATE</th>
 		</tr>
 		<%
 			for(GuestBoard gb : list) {

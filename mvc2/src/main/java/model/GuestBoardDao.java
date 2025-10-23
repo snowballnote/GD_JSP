@@ -22,7 +22,7 @@ public class GuestBoardDao {
         Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/mvc", "root", "java1234");
-        stmt = conn.prepareStatement(sql));
+        stmt = conn.prepareStatement(sql);
        	stmt.setString(1, gb.getTitle());
         stmt.setString(2, gb.getContent());
         stmt.setString(3, gb.getWriter());

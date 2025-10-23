@@ -29,14 +29,26 @@ public class AddController extends HttpServlet {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String writer = request.getParameter("writer");
 		
 		GuestBoard gb = new GuestBoard();
-		gb.setTitle(title.trim());
-		gb.setContent(content.trim());
-		gb.setWriter(loginMember.getWriter());
+		gb.setTitle(title);
+		gb.setContent(content);
+		gb.setWriter(writer);
 		
 		GuestBoardDao dao = new GuestBoardDao();
-		
-	}
+		try {
+            int row = dao.insertGuestBoard(gb);
 
+            if (row == 1) {
+                // 성공 시 목록으로 이동
+                response.sendRedirect(request.getContextPath() + "/listView");
+            } else {
+                // 실패 시 다시 글쓰기 폼으로 이동
+                response.sendRedirect(request.getContextPath() + "/addController");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+	}
 }

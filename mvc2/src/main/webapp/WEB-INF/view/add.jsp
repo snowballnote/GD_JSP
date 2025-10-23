@@ -17,7 +17,7 @@
 </head>
 <body>
 	<h1>새 글 작성</h1>
-	WRITER : <%=loginMember.getWriter() %>
+	ID : <%=loginMember.getId() %>
 	<form method="post" action="<%=request.getContextPath() %>/addController">
 		<table border="1">
 			<tr>
@@ -27,6 +27,10 @@
 			<tr>
 				<td>CONTENT</td>
 				<td><textarea name="content" rows="10" cols="60"></textarea>
+			</tr>
+			<tr>
+				<td>WRITER</td>
+				<td><input type="text" name="writer"></td>
 			</tr>
 		</table>
 		<button type="submit">등록</button>

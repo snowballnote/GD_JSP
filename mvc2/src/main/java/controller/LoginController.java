@@ -40,7 +40,7 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+"/login");
 			}else { // 로그인 성공
 				request.getSession().setAttribute("loginMember", loginMember);
-				response.sendRedirect(request.getContextPath()+"/listController");
+				response.sendRedirect(request.getContextPath()+"/listView");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

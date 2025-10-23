@@ -20,7 +20,7 @@ import dto.GuestBoard;
  * 
  * C -> M 통신, C -> V 통신, M - V : X, 반대쪽 화살표로도 : X
  */
-@WebServlet("/listController")
+@WebServlet("/listView")
 public class ListController extends HttpServlet {
 	// C - M - V
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
