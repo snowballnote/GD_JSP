@@ -7,10 +7,27 @@
 <body>
 </body>
 <script>
-	let x = 10;
-	let y = 3;
+	let a = 'true';
+	let b = 'false';
 	
-	console.log(x / y); // 실수연산
-	console.log(x % y); 
+	console.log(Boolean(a));
+	console.log(Boolean(b)); 
+	
+	console.log(Boolean(0));
+	console.log(Boolean(1));
+	console.log(Boolean(2));
+	
+	console.log(Boolean(Infinity)); // Infinity=> 무한대 // true
+	console.log(Boolean(NaN)); // Not a Number // false
+	
+	console.log(Boolean('test')); // t
+	console.log(Boolean('')); // f
+	console.log(Boolean(' ')); // t
+	
+	console.log(Boolean(undefined));
+	
+	console.log(Boolean({})); // t
+	console.log(Boolean([])); // t
+	console.log(Boolean(null)); // f
 </script>
 </html>
