@@ -31,6 +31,9 @@ public class MemberDao {
 			loginMember.setGrade(rs.getInt("grade"));
 		}
 		
+		rs.close();
+		stmt.close();
+		conn.close();
 		return loginMember;
 	}
 }

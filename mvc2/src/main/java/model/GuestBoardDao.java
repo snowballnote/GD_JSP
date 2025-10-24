@@ -14,7 +14,6 @@ public class GuestBoardDao {
 	public int insertGuestBoard(GuestBoard gb) throws Exception {
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
         int row = 0;
         String sql = "INSERT INTO guest_board (title, content, writer, createdate)"
                    + " VALUES (?, ?, ?, NOW())";
@@ -27,7 +26,9 @@ public class GuestBoardDao {
         stmt.setString(2, gb.getContent());
         stmt.setString(3, gb.getWriter());
         row = stmt.executeUpdate();
-      
+        
+		stmt.close();
+		conn.close();
         return row;
     }
 	public int selectCount() throws Exception {
@@ -46,6 +47,10 @@ public class GuestBoardDao {
 		if(rs.next()) {
 			count = rs.getInt(1);
 		}
+		
+		rs.close();
+		stmt.close();
+		conn.close();
 		return count;
 	}
 	
@@ -74,6 +79,9 @@ public class GuestBoardDao {
 			list.add(gb);
 		}
 		
+		rs.close();
+		stmt.close();
+		conn.close();
 		return list;
 	}
 }
